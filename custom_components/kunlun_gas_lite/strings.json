@@ -1,0 +1,46 @@
+{
+  "title": "昆仑燃气（免密/小程序轻量版）",
+  "config": {
+    "step": {
+      "user": {
+        "title": "选择地区",
+        "description": "从 {count} 家燃气公司中选择你所在的地区。下一步会自动填好地区码和地区编号，你只需确认。",
+        "data": {
+          "region": "所在地区（省份 · 燃气公司）"
+        }
+      },
+      "detail": {
+        "title": "连接昆仑燃气",
+        "description": "地区码 {mdm} 和地区编号 {ou} 已根据上一步自动填好，一般无需改动。\n\n余额、欠费、表读数等核心数据来自公开接口，无需令牌。令牌为可选项：填入后额外获得日用气、月用气、账单、阶梯气价；过期会自动降级，不影响核心传感器。",
+        "data": {
+          "user_code": "户号（userCode）",
+          "mdm_code": "地区码（mdmCode，自动填）",
+          "ou_id": "地区编号（ouId，自动填）",
+          "token": "Authorization 令牌（可选，留空=免密）",
+          "account_id": "账户编号 accountId（可选）",
+          "badge_number": "表号 badgeNumber（可选）",
+          "scan_interval": "刷新间隔（秒）"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "无法连接燃气服务或户号/地区码不正确，请检查后重试"
+    },
+    "abort": {
+      "already_configured": "该户号已添加"
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "昆仑燃气设置",
+        "description": "当前模式：{mode}。\n\n• 有令牌只影响“日用气/月用气/账单/阶梯”这些进阶数据，核心余额与表读数始终免密可用。\n• 令牌有效期很短（实测 ≤3 天，服务端控制、无法自动续期），粘贴新的即可替换。\n• 只想保持现状时，令牌框留空即可；若要彻底回到免密，勾选“清除已保存的令牌”。",
+        "data": {
+          "token": "新 Authorization 令牌（留空=不变）",
+          "clear_token": "清除已保存的令牌（回到免密）",
+          "scan_interval": "刷新间隔（秒）"
+        }
+      }
+    }
+  }
+}

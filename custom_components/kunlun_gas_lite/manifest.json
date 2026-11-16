@@ -1,0 +1,12 @@
+{
+  "domain": "kunlun_gas_lite",
+  "name": "昆仑燃气（免密/小程序轻量版）",
+  "codeowners": [],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://bol.grs.petrochina.com.cn/retail/h5/",
+  "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "requirements": [],
+  "version": "2.2.0"
+}
