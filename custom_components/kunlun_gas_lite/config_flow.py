@@ -1,6 +1,8 @@
 """配置流：两步。第 1 步选地区（下拉，自动带出地区码/ouId），第 2 步填户号等。
 
-默认免密（只需户号）；令牌可选，且可在"设置"里随时更换/清除。
+所有字段都没有默认值：地区必须自己选，户号/账户编号/表号必须自己填，
+避免把任何特定用户的配置带进集成。默认免密（只需户号）；令牌可选，
+且可在"设置"里随时更换/清除。
 """
 from __future__ import annotations
 
@@ -62,33 +64,34 @@ def _region_selector():
     ))
 
 
-def _parse_region(value: str) -> tuple[str, int]:
-    """value='mdmCode|ouId' -> (mdm_code, ou_id)；非法值返回空。"""
+def _parse_region(value: Any) -> tuple[str, int] | None:
+    """value='mdmCode|ouId' -> (mdm_code, ou_id)；非法返回 None，由调用方报错。"""
     try:
         mdm, ou = str(value).split("|", 1)
-        return mdm, int(ou)
     except (ValueError, TypeError):
-        return "", 0
+        return None
+    mdm = mdm.strip()
+    try:
+        ou_id = int(ou)
+    except (ValueError, TypeError):
+        return None
+    if not mdm or ou_id <= 0:
+        return None
+    return mdm, ou_id
 
 
 def _detail_schema(defaults: dict[str, Any]) -> vol.Schema:
-    mdm = defaults.get(CONF_MDM_CODE, "")
-    ou = defaults.get(CONF_OU_ID, 0)
-    fields: dict[Any, Any] = {
-        vol.Required(CONF_USER_CODE): str,
-        vol.Optional(CONF_TOKEN, default=""): str,
-        vol.Optional(CONF_ACCOUNT_ID, default=""): str,
-        vol.Optional(CONF_BADGE, default=""): str,
+    """第 2 步表单。除地区码/编号（来自上一步选择）外，一律不给默认值。"""
+    return vol.Schema({
+        vol.Required(CONF_USER_CODE, default=defaults.get(CONF_USER_CODE, "")): str,
+        vol.Required(CONF_MDM_CODE, default=defaults.get(CONF_MDM_CODE, "")): str,
+        vol.Required(CONF_OU_ID, default=defaults.get(CONF_OU_ID, 0)): int,
+        vol.Optional(CONF_TOKEN, default=defaults.get(CONF_TOKEN, "")): str,
+        vol.Optional(CONF_ACCOUNT_ID, default=defaults.get(CONF_ACCOUNT_ID, "")): str,
+        vol.Optional(CONF_BADGE, default=defaults.get(CONF_BADGE, "")): str,
         vol.Required(CONF_SCAN_INTERVAL,
                      default=defaults.get(CONF_SCAN_INTERVAL, DEFAULT_SCAN_INTERVAL)): _scan_selector(),
-    }
-    fields[
-        vol.Required(CONF_MDM_CODE, default=mdm) if mdm else vol.Required(CONF_MDM_CODE)
-    ] = str
-    fields[
-        vol.Required(CONF_OU_ID, default=ou) if ou else vol.Required(CONF_OU_ID)
-    ] = int
-    return vol.Schema(fields)
+    })
 
 
 def _title(code: str, has_token: bool) -> str:
@@ -99,8 +102,8 @@ class KunlunGasConfigFlow(ConfigFlow, domain=DOMAIN):
     VERSION = 2
 
     def __init__(self) -> None:
-        self._region_mdm = ""
-        self._region_ou = 0
+        self._region_mdm: str = ""
+        self._region_ou: int = 0
 
     @staticmethod
     @callback
@@ -108,57 +111,69 @@ class KunlunGasConfigFlow(ConfigFlow, domain=DOMAIN):
         return KunlunGasOptionsFlow()
 
     async def async_step_user(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
-        """第 1 步：选地区。"""
+        """第 1 步：选地区（无默认选中项）。"""
+        errors: dict[str, str] = {}
         if user_input is not None:
-            self._region_mdm, self._region_ou = _parse_region(user_input[CONF_REGION])
-            return await self.async_step_detail()
+            parsed = _parse_region(user_input.get(CONF_REGION))
+            if parsed is None:
+                errors["base"] = "invalid_region"
+            else:
+                self._region_mdm, self._region_ou = parsed
+                return await self.async_step_detail()
 
         return self.async_show_form(
             step_id="user",
             data_schema=vol.Schema({
                 vol.Required(CONF_REGION): _region_selector(),
             }),
-            description_placeholders={
-                "count": str(len(REGIONS)),
-            },
+            errors=errors,
+            description_placeholders={"count": str(len(REGIONS))},
         )
 
     async def async_step_detail(self, user_input: dict[str, Any] | None = None) -> ConfigFlowResult:
         """第 2 步：地区码/ouId 已按上一步自动填好，填户号等。"""
+        if not self._region_mdm:
+            # 极端情况下（直接跳步）回到地区选择
+            return await self.async_step_user()
+
         errors: dict[str, str] = {}
         if user_input is not None:
             cfg = {
-                CONF_USER_CODE: str(user_input[CONF_USER_CODE]).strip(),
-                CONF_MDM_CODE: str(user_input[CONF_MDM_CODE]).strip(),
+                CONF_USER_CODE: str(user_input.get(CONF_USER_CODE) or "").strip(),
+                CONF_MDM_CODE: str(user_input.get(CONF_MDM_CODE) or "").strip(),
                 CONF_TOKEN: _clean_token(user_input.get(CONF_TOKEN)),
                 CONF_ACCOUNT_ID: str(user_input.get(CONF_ACCOUNT_ID) or "").strip(),
                 CONF_BADGE: str(user_input.get(CONF_BADGE) or "").strip(),
-                CONF_OU_ID: int(user_input[CONF_OU_ID]),
+                CONF_OU_ID: int(user_input.get(CONF_OU_ID) or 0),
             }
-            try:
-                client = KunlunGasClient(self.hass, cfg)
-                balance = await client.async_validate()
-            except Exception as err:  # noqa: BLE001
-                _LOGGER.warning("昆仑燃气配置校验失败: %s", err)
-                errors["base"] = "cannot_connect"
+            if not cfg[CONF_USER_CODE]:
+                errors["base"] = "invalid_user_code"
             else:
-                code = cfg[CONF_USER_CODE]
-                await self.async_set_unique_id(code)
-                self._abort_if_unique_id_configured()
-                _LOGGER.info(
-                    "昆仑燃气校验通过：%s 余额 %s 元 / 表读数 %s m³（%s模式）",
-                    cfg[CONF_MDM_CODE], balance.get("remoteMeterBalance"),
-                    balance.get("readingLastTime"),
-                    "完整" if client.has_token else "免密",
-                )
-                return self.async_create_entry(
-                    title=_title(code, bool(cfg[CONF_TOKEN])),
-                    data={**cfg, CONF_SCAN_INTERVAL: int(user_input[CONF_SCAN_INTERVAL])},
-                )
+                try:
+                    client = KunlunGasClient(self.hass, cfg)
+                    balance = await client.async_validate()
+                except Exception as err:  # noqa: BLE001
+                    _LOGGER.warning("昆仑燃气配置校验失败: %s", err)
+                    errors["base"] = "cannot_connect"
+                else:
+                    code = cfg[CONF_USER_CODE]
+                    await self.async_set_unique_id(code)
+                    self._abort_if_unique_id_configured()
+                    _LOGGER.info(
+                        "昆仑燃气校验通过：地区码 %s，余额 %s 元 / 表读数 %s（%s模式）",
+                        cfg[CONF_MDM_CODE], balance.get("remoteMeterBalance"),
+                        balance.get("readingLastTime"),
+                        "完整" if client.has_token else "免密",
+                    )
+                    return self.async_create_entry(
+                        title=_title(code, bool(cfg[CONF_TOKEN])),
+                        data={**cfg, CONF_SCAN_INTERVAL: int(user_input[CONF_SCAN_INTERVAL])},
+                    )
 
         return self.async_show_form(
             step_id="detail",
             data_schema=_detail_schema({
+                **(user_input or {}),
                 CONF_MDM_CODE: self._region_mdm,
                 CONF_OU_ID: self._region_ou,
             }),

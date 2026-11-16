@@ -22,10 +22,6 @@ from .const import (
     CONF_TOKEN,
     CONF_USER_CODE,
     DAY_WINDOW,
-    DEFAULT_ACCOUNT_ID,
-    DEFAULT_BADGE,
-    DEFAULT_MDM_CODE,
-    DEFAULT_OU_ID,
     DEFAULT_SCAN_INTERVAL,
     DOMAIN,
     PATH_BALANCE,
@@ -49,10 +45,10 @@ class KunlunGasClient:
     def __init__(self, hass: HomeAssistant, config: dict):
         self._session = async_get_clientsession(hass)
         self.user_code = str(config.get(CONF_USER_CODE) or "")
-        self.mdm_code = str(config.get(CONF_MDM_CODE) or DEFAULT_MDM_CODE)
-        self.account_id = str(config.get(CONF_ACCOUNT_ID) or DEFAULT_ACCOUNT_ID)
-        self.badge = str(config.get(CONF_BADGE) or DEFAULT_BADGE)
-        self.ou_id = int(config.get(CONF_OU_ID) or DEFAULT_OU_ID)
+        self.mdm_code = str(config.get(CONF_MDM_CODE) or "")
+        self.account_id = str(config.get(CONF_ACCOUNT_ID) or "")
+        self.badge = str(config.get(CONF_BADGE) or "")
+        self.ou_id = int(config.get(CONF_OU_ID) or 0)
         self.token = str(config.get(CONF_TOKEN) or "").strip()
 
     @property
@@ -135,9 +131,11 @@ class KunlunGasClient:
 
         # 2) 进阶：需要令牌。任一环节失效即降级，不影响核心传感器
         try:
-            detail = await self._request(
-                "GET", PATH_DEFAULT_USER_CODE, params={"mdmOuId": self.ou_id}
-            )
+            detail = None
+            if self.ou_id:
+                detail = await self._request(
+                    "GET", PATH_DEFAULT_USER_CODE, params={"mdmOuId": self.ou_id}
+                )
             if isinstance(detail, dict) and detail.get("customerCode"):
                 user.update({
                     "customerCode": str(detail["customerCode"]),

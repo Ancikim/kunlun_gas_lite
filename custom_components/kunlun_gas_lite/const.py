@@ -1,13 +1,13 @@
 """昆仑燃气（小程序轻量版）常量。
 
-2026-11-16 实测：/retail/preservice/gasFeePay/getDebt4Wsyyt 无需任何令牌即可
-返回实时数据（表端余额、欠费、表读数、最后通信时间等），因此集成默认
-走「免密模式」；只有填了 Authorization 令牌才会额外调用 /hall/close/ 系列
-接口获取账单、日用气、月用气、阶梯气价等进阶数据。令牌过期会自动降级，
-不影响免密传感器。
-"""
-from datetime import timedelta
+/retail/preservice/gasFeePay/getDebt4Wsyyt 无需任何令牌即可返回实时数据
+（表端余额、欠费、表读数、最后通信时间等），因此集成默认走「免密模式」；
+只有填了 Authorization 令牌才会额外调用 /hall/close/ 系列接口获取账单、
+日用气、月用气、阶梯气价等进阶数据。令牌过期会自动降级，不影响免密传感器。
 
+说明：所有用户相关参数（户号、账户编号、表号、地区）都在配置流程里填写，
+本文件不保存任何默认值，也不含任何个人数据。
+"""
 DOMAIN = "kunlun_gas_lite"
 
 BASE_URL = "https://bol.grs.petrochina.com.cn/retail"
@@ -32,13 +32,6 @@ CONF_CLEAR_TOKEN = "clear_token"
 CONF_OU_ID = "ou_id"
 CONF_SCAN_INTERVAL = "scan_interval"
 
-# 不内置任何账户/地区默认值：全部由用户在配置流程中自行填写
-DEFAULT_USER_CODE = ""
-DEFAULT_MDM_CODE = ""
-DEFAULT_ACCOUNT_ID = ""
-DEFAULT_BADGE = ""
-DEFAULT_OU_ID = 0
-
 DEFAULT_SCAN_INTERVAL = 3600
 MIN_SCAN_INTERVAL = 1800
 DAY_WINDOW = 31
@@ -52,7 +45,7 @@ UA = (
 )
 
 
-def build_headers(token: str = "", mdm_code: str = DEFAULT_MDM_CODE) -> dict:
+def build_headers(token: str = "", mdm_code: str = "") -> dict:
     """还原小程序 H5 请求头。token 为空时即为免密模式。"""
     headers = {
         "Accept": "application/json, text/plain, */*",
@@ -63,8 +56,9 @@ def build_headers(token: str = "", mdm_code: str = DEFAULT_MDM_CODE) -> dict:
         "Sec-Fetch-Site": "same-origin",
         "Sec-Fetch-Mode": "cors",
         "Sec-Fetch-Dest": "empty",
-        "Cookie": "X-Mdm-Code=" + mdm_code,
     }
+    if mdm_code:
+        headers["Cookie"] = "X-Mdm-Code=" + str(mdm_code)
     if token:
         token = token.strip()
         headers["Authorization"] = (

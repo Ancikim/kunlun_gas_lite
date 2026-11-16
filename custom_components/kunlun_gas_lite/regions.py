@@ -1,10 +1,11 @@
 """昆仑燃气地区表：来自公开接口 getGasCompanyList（227 家公司）。
 
 每条 value="mdmCode|ouId"，供配置流程下拉选项使用；离线可用。
-更新时间：2026-11-16。
+地区顺序按「省份 · 公司」名称排序，不设任何默认选中项。
 """
 
 REGIONS = [
+    {'province': '甘肃省', 'name': '金昌中石油昆仑燃气有限公司', 'mdm_code': '9AC6', 'ou_id': 125200, 'value': '9AC6|125200', 'label': '甘肃省 · 金昌昆仑燃气'},
     {'province': '云南省', 'name': '丽江中石油昆仑燃气有限公司', 'mdm_code': '9AHL', 'ou_id': 130200, 'value': '9AHL|130200', 'label': '云南省 · 丽江昆仑燃气'},
     {'province': '云南省', 'name': '云南中石油昆仑天然气工业开发有限公司', 'mdm_code': '9AHT', 'ou_id': 151900, 'value': '9AHT|151900', 'label': '云南省 · 云南中石油昆仑天然气工业开发有限公司'},
     {'province': '云南省', 'name': '云南中石油昆仑燃气易门有限公司', 'mdm_code': '9AHN', 'ou_id': 136600, 'value': '9AHN|136600', 'label': '云南省 · 云南中石油昆仑燃气易门有限公司'},
@@ -22,9 +23,9 @@ REGIONS = [
     {'province': '云南省', 'name': '禄丰中石油昆仑燃气有限公司', 'mdm_code': '9AHB', 'ou_id': 129400, 'value': '9AHB|129400', 'label': '云南省 · 禄丰昆仑燃气'},
     {'province': '云南省', 'name': '红河中石油昆仑燃气有限公司', 'mdm_code': '9AHA', 'ou_id': 129300, 'value': '9AHA|129300', 'label': '云南省 · 红河昆仑燃气'},
     {'province': '云南省', 'name': '腾冲中石油昆仑燃气有限公司', 'mdm_code': '9AH9', 'ou_id': 129200, 'value': '9AH9|129200', 'label': '云南省 · 腾冲昆仑燃气'},
+    {'province': '内蒙古', 'name': '乌兰察布中石油昆仑燃气有限公司', 'mdm_code': '9A5D', 'ou_id': 143200, 'value': '9A5D|143200', 'label': '内蒙古 · 乌兰察布昆仑燃气'},
     {'province': '内蒙古', 'name': '中石油昆仑燃气有限公司呼和浩特市分公司', 'mdm_code': '9A5F', 'ou_id': 154500, 'value': '9A5F|154500', 'label': '内蒙古 · 昆仑燃气呼和浩特市分公司'},
     {'province': '内蒙古', 'name': '中石油昆仑燃气有限公司阿拉善分公司', 'mdm_code': '9A5E', 'ou_id': 147000, 'value': '9A5E|147000', 'label': '内蒙古 · 昆仑燃气阿拉善分公司'},
-    {'province': '内蒙古', 'name': '乌兰察布中石油昆仑燃气有限公司', 'mdm_code': '9A5D', 'ou_id': 143200, 'value': '9A5D|143200', 'label': '内蒙古 · 乌兰察布昆仑燃气'},
     {'province': '北京市', 'name': '北京华油联合燃气开发有限公司大兴分公司', 'mdm_code': '9A17', 'ou_id': 158500, 'value': '9A17|158500', 'label': '北京市 · 北京华油联合燃气开发有限公司大兴分公司'},
     {'province': '北京市', 'name': '北京华油联合燃气开发有限公司门头沟分公司', 'mdm_code': '9A15', 'ou_id': 140300, 'value': '9A15|140300', 'label': '北京市 · 北京华油联合燃气开发有限公司门头沟分公司'},
     {'province': '北京市', 'name': '北京华油联合燃气开发有限公司马驹桥分公司', 'mdm_code': '9A14', 'ou_id': 140200, 'value': '9A14|140200', 'label': '北京市 · 北京华油联合燃气开发有限公司马驹桥分公司'},
@@ -33,13 +34,13 @@ REGIONS = [
     {'province': '吉林省', 'name': '吉林市城市燃气分公司', 'mdm_code': '9AU1', 'ou_id': 110300, 'value': '9AU1|110300', 'label': '吉林省 · 吉林市城市燃气分公司'},
     {'province': '四川省', 'name': '平安国际燃气', 'mdm_code': 'ZZ11', 'ou_id': 199999, 'value': 'ZZ11|199999', 'label': '四川省 · 平安国际燃气'},
     {'province': '天津市', 'name': '中石油天津天然气管道有限公司', 'mdm_code': '9A29', 'ou_id': 148800, 'value': '9A29|148800', 'label': '天津市 · 中石油天津天然气管道有限公司'},
-    {'province': '天津市', 'name': '天津中石油昆仑燃气有限公司', 'mdm_code': '9A21', 'ou_id': 110800, 'value': '9A21|110800', 'label': '天津市 · 天津昆仑燃气'},
     {'province': '天津市', 'name': '天津宝坻区中油昆仑燃气有限公司', 'mdm_code': '9A28', 'ou_id': 147300, 'value': '9A28|147300', 'label': '天津市 · 天津宝坻区中油昆仑燃气'},
+    {'province': '天津市', 'name': '天津中石油昆仑燃气有限公司', 'mdm_code': '9A21', 'ou_id': 110800, 'value': '9A21|110800', 'label': '天津市 · 天津昆仑燃气'},
     {'province': '天津市', 'name': '天津昆仑燃气有限公司', 'mdm_code': '9A23', 'ou_id': 136900, 'value': '9A23|136900', 'label': '天津市 · 天津昆仑燃气'},
     {'province': '天津市', 'name': '天津津静昆仑燃气有限公司', 'mdm_code': '9A2B', 'ou_id': 150200, 'value': '9A2B|150200', 'label': '天津市 · 天津津静昆仑燃气'},
     {'province': '天津市', 'name': '天津滨海高新区昆仑津热燃气有限公司', 'mdm_code': '9A2A', 'ou_id': 150100, 'value': '9A2A|150100', 'label': '天津市 · 天津滨海高新区昆仑津热燃气有限公司'},
-    {'province': '宁夏回族自治区', 'name': '中石油昆仑燃气有限公司中卫分公司', 'mdm_code': '9AD4', 'ou_id': 125900, 'value': '9AD4|125900', 'label': '宁夏回族自治区 · 昆仑燃气中卫分公司'},
     {'province': '宁夏回族自治区', 'name': '宁夏昆仑联合能源有限公司', 'mdm_code': '9AD9', 'ou_id': 153600, 'value': '9AD9|153600', 'label': '宁夏回族自治区 · 宁夏昆仑联合能源有限公司'},
+    {'province': '宁夏回族自治区', 'name': '中石油昆仑燃气有限公司中卫分公司', 'mdm_code': '9AD4', 'ou_id': 125900, 'value': '9AD4|125900', 'label': '宁夏回族自治区 · 昆仑燃气中卫分公司'},
     {'province': '宁夏回族自治区', 'name': '银川中石油昆仑燃气有限公司', 'mdm_code': '9AD6', 'ou_id': 147500, 'value': '9AD6|147500', 'label': '宁夏回族自治区 · 银川昆仑燃气'},
     {'province': '安徽省', 'name': '中石油昆仑淮矿燃气', 'mdm_code': '9A87', 'ou_id': 138000, 'value': '9A87|138000', 'label': '安徽省 · 中石油昆仑淮矿燃气'},
     {'province': '安徽省', 'name': '合肥昆仑燃气有限公司', 'mdm_code': '9A83', 'ou_id': 118900, 'value': '9A83|118900', 'label': '安徽省 · 合肥昆仑燃气'},
@@ -136,11 +137,11 @@ REGIONS = [
     {'province': '江西省', 'name': '广昌国发能源发展有限公司', 'mdm_code': '9AR5', 'ou_id': 153100, 'value': '9AR5|153100', 'label': '江西省 · 广昌国发能源发展有限公司'},
     {'province': '江西省', 'name': '横峰中石油昆仑燃气有限公司', 'mdm_code': '9AR1', 'ou_id': 135900, 'value': '9AR1|135900', 'label': '江西省 · 横峰昆仑燃气'},
     {'province': '江西省', 'name': '金溪国发能源发展有限公司', 'mdm_code': '9AR6', 'ou_id': 153200, 'value': '9AR6|153200', 'label': '江西省 · 金溪国发能源发展有限公司'},
-    {'province': '河北省', 'name': '保定中石油昆仑燃气有限公司', 'mdm_code': '9A35', 'ou_id': 111400, 'value': '9A35|111400', 'label': '河北省 · 保定昆仑燃气'},
-    {'province': '河北省', 'name': '保定中石油昆仑燃气有限公司安国分公司', 'mdm_code': '9A3Z', 'ou_id': 152900, 'value': '9A3Z|152900', 'label': '河北省 · 保定昆仑燃气安国分公司'},
     {'province': '河北省', 'name': '保定中石油昆仑能源有限公司徐水分公司', 'mdm_code': '9A3Y', 'ou_id': 152400, 'value': '9A3Y|152400', 'label': '河北省 · 保定中石油昆仑能源有限公司徐水分公司'},
     {'province': '河北省', 'name': '保定中石油昆仑能源有限公司（高阳县）', 'mdm_code': '9A39', 'ou_id': 111800, 'value': '9A39|111800', 'label': '河北省 · 保定中石油昆仑能源有限公司（高阳县）'},
     {'province': '河北省', 'name': '保定市中茂能源有限公司', 'mdm_code': '9A3G', 'ou_id': 112500, 'value': '9A3G|112500', 'label': '河北省 · 保定市中茂能源有限公司'},
+    {'province': '河北省', 'name': '保定中石油昆仑燃气有限公司', 'mdm_code': '9A35', 'ou_id': 111400, 'value': '9A35|111400', 'label': '河北省 · 保定昆仑燃气'},
+    {'province': '河北省', 'name': '保定中石油昆仑燃气有限公司安国分公司', 'mdm_code': '9A3Z', 'ou_id': 152900, 'value': '9A3Z|152900', 'label': '河北省 · 保定昆仑燃气安国分公司'},
     {'province': '河北省', 'name': '华港燃气集团（河北雄安）天然气有限责任公司', 'mdm_code': '9AXC', 'ou_id': 159500, 'value': '9AXC|159500', 'label': '河北省 · 华港燃气集团（河北雄安）天然气有限责任公司'},
     {'province': '河北省', 'name': '怀来华港燃气有限公司', 'mdm_code': '9AX8', 'ou_id': 159100, 'value': '9AX8|159100', 'label': '河北省 · 怀来华港燃气有限公司'},
     {'province': '河北省', 'name': '抚宁中石油昆仑燃气有限公司', 'mdm_code': '9A37', 'ou_id': 111600, 'value': '9A37|111600', 'label': '河北省 · 抚宁昆仑燃气'},
@@ -163,12 +164,12 @@ REGIONS = [
     {'province': '河北省', 'name': '邢台中石油昆仑燃气有限公司', 'mdm_code': '9A3W', 'ou_id': 147700, 'value': '9A3W|147700', 'label': '河北省 · 邢台昆仑燃气'},
     {'province': '河北省', 'name': '霸州中石油昆仑燃气有限公司', 'mdm_code': '9A31', 'ou_id': 111000, 'value': '9A31|111000', 'label': '河北省 · 霸州昆仑燃气'},
     {'province': '河北省', 'name': '饶阳华港燃气有限公司', 'mdm_code': '9AX7', 'ou_id': 159000, 'value': '9AX7|159000', 'label': '河北省 · 饶阳华港燃气有限公司'},
-    {'province': '河南省', 'name': '中石油昆仑燃气有限公司平舆分公司', 'mdm_code': '9AJG', 'ou_id': 142300, 'value': '9AJG|142300', 'label': '河南省 · 昆仑燃气平舆分公司'},
     {'province': '河南省', 'name': '伊川中石油昆仑燃气有限公司', 'mdm_code': '9AJ4', 'ou_id': 130700, 'value': '9AJ4|130700', 'label': '河南省 · 伊川昆仑燃气'},
     {'province': '河南省', 'name': '博爱中石油昆仑燃气有限公司', 'mdm_code': '9AJ1', 'ou_id': 130400, 'value': '9AJ1|130400', 'label': '河南省 · 博爱昆仑燃气'},
     {'province': '河南省', 'name': '卢氏中石油昆仑燃气有限公司', 'mdm_code': '9AJH', 'ou_id': 147400, 'value': '9AJH|147400', 'label': '河南省 · 卢氏昆仑燃气'},
     {'province': '河南省', 'name': '巩义中石油昆仑燃气有限公司', 'mdm_code': '9AJ2', 'ou_id': 130500, 'value': '9AJ2|130500', 'label': '河南省 · 巩义昆仑燃气'},
     {'province': '河南省', 'name': '新郑中石油昆仑燃气有限公司', 'mdm_code': '9AJ3', 'ou_id': 130600, 'value': '9AJ3|130600', 'label': '河南省 · 新郑昆仑燃气'},
+    {'province': '河南省', 'name': '中石油昆仑燃气有限公司平舆分公司', 'mdm_code': '9AJG', 'ou_id': 142300, 'value': '9AJG|142300', 'label': '河南省 · 昆仑燃气平舆分公司'},
     {'province': '河南省', 'name': '杞县昆仑能源天然气有限公司', 'mdm_code': '9AJF', 'ou_id': 141900, 'value': '9AJF|141900', 'label': '河南省 · 杞县昆仑能源天然气有限公司'},
     {'province': '河南省', 'name': '桐柏中石油昆仑燃气有限公司', 'mdm_code': '9AJK', 'ou_id': 155300, 'value': '9AJK|155300', 'label': '河南省 · 桐柏昆仑燃气'},
     {'province': '河南省', 'name': '河南昆仑能源发展有限公司', 'mdm_code': '9AJD', 'ou_id': 131600, 'value': '9AJD|131600', 'label': '河南省 · 河南昆仑能源发展有限公司'},
@@ -207,19 +208,18 @@ REGIONS = [
     {'province': '湖南省', 'name': '衡阳中石油昆仑燃气有限公司', 'mdm_code': '9ALG', 'ou_id': 139300, 'value': '9ALG|139300', 'label': '湖南省 · 衡阳昆仑燃气'},
     {'province': '湖南省', 'name': '长沙市望城区昆仑燃气有限公司', 'mdm_code': '9AL7', 'ou_id': 133700, 'value': '9AL7|133700', 'label': '湖南省 · 长沙市望城区昆仑燃气'},
     {'province': '湖南省', 'name': '韶山中石油昆仑燃气有限公司', 'mdm_code': '9ALF', 'ou_id': 139200, 'value': '9ALF|139200', 'label': '湖南省 · 韶山昆仑燃气'},
+    {'province': '甘肃省', 'name': '嘉峪关中石油昆仑燃气有限公司', 'mdm_code': '9AC9', 'ou_id': 125500, 'value': '9AC9|125500', 'label': '甘肃省 · 嘉峪关昆仑燃气'},
+    {'province': '甘肃省', 'name': '天水中石油昆仑燃气有限公司', 'mdm_code': '9AC3', 'ou_id': 124900, 'value': '9AC3|124900', 'label': '甘肃省 · 天水昆仑燃气'},
+    {'province': '甘肃省', 'name': '张掖中石油昆仑燃气有限公司', 'mdm_code': '9AC7', 'ou_id': 125300, 'value': '9AC7|125300', 'label': '甘肃省 · 张掖昆仑燃气'},
     {'province': '甘肃省', 'name': '中石油昆仑燃气有限公司临夏分公司', 'mdm_code': '9AC4', 'ou_id': 125000, 'value': '9AC4|125000', 'label': '甘肃省 · 昆仑燃气临夏分公司'},
     {'province': '甘肃省', 'name': '中石油昆仑燃气有限公司敦煌分公司', 'mdm_code': '9AY4', 'ou_id': 149500, 'value': '9AY4|149500', 'label': '甘肃省 · 昆仑燃气敦煌分公司'},
     {'province': '甘肃省', 'name': '中石油昆仑燃气有限公司景泰分公司', 'mdm_code': '9AC2', 'ou_id': 124800, 'value': '9AC2|124800', 'label': '甘肃省 · 昆仑燃气景泰分公司'},
     {'province': '甘肃省', 'name': '中石油昆仑燃气有限公司瓜州分公司', 'mdm_code': '9ACD', 'ou_id': 154400, 'value': '9ACD|154400', 'label': '甘肃省 · 昆仑燃气瓜州分公司'},
-    {'province': '甘肃省', 'name': '嘉峪关中石油昆仑燃气有限公司', 'mdm_code': '9AC9', 'ou_id': 125500, 'value': '9AC9|125500', 'label': '甘肃省 · 嘉峪关昆仑燃气'},
-    {'province': '甘肃省', 'name': '天水中石油昆仑燃气有限公司', 'mdm_code': '9AC3', 'ou_id': 124900, 'value': '9AC3|124900', 'label': '甘肃省 · 天水昆仑燃气'},
-    {'province': '甘肃省', 'name': '张掖中石油昆仑燃气有限公司', 'mdm_code': '9AC7', 'ou_id': 125300, 'value': '9AC7|125300', 'label': '甘肃省 · 张掖昆仑燃气'},
     {'province': '甘肃省', 'name': '武威中石油昆仑燃气有限公司', 'mdm_code': '9AC5', 'ou_id': 125100, 'value': '9AC5|125100', 'label': '甘肃省 · 武威昆仑燃气'},
     {'province': '甘肃省', 'name': '玉门昆仑燃气有限公司', 'mdm_code': '9ACC', 'ou_id': 152700, 'value': '9ACC|152700', 'label': '甘肃省 · 玉门昆仑燃气'},
     {'province': '甘肃省', 'name': '甘肃中石油昆仑燃气有限公司', 'mdm_code': '9AX2', 'ou_id': 141800, 'value': '9AX2|141800', 'label': '甘肃省 · 甘肃昆仑燃气'},
     {'province': '甘肃省', 'name': '白银中石油昆仑燃气有限公司', 'mdm_code': '9AC1', 'ou_id': 124700, 'value': '9AC1|124700', 'label': '甘肃省 · 白银昆仑燃气'},
     {'province': '甘肃省', 'name': '酒泉中石油昆仑燃气有限公司', 'mdm_code': '9AC8', 'ou_id': 125400, 'value': '9AC8|125400', 'label': '甘肃省 · 酒泉昆仑燃气'},
-    {'province': '甘肃省', 'name': '金昌中石油昆仑燃气有限公司', 'mdm_code': '9AC6', 'ou_id': 125200, 'value': '9AC6|125200', 'label': '甘肃省 · 金昌昆仑燃气'},
     {'province': '贵州省', 'name': '丹寨中石油昆仑燃气有限公司', 'mdm_code': '9AGE', 'ou_id': 155400, 'value': '9AGE|155400', 'label': '贵州省 · 丹寨昆仑燃气'},
     {'province': '贵州省', 'name': '福泉中石油昆仑燃气有限公司', 'mdm_code': '9AG9', 'ou_id': 144700, 'value': '9AG9|144700', 'label': '贵州省 · 福泉昆仑燃气'},
     {'province': '贵州省', 'name': '遵义昆仑燃气有限公司', 'mdm_code': '9AGF', 'ou_id': 160100, 'value': '9AGF|160100', 'label': '贵州省 · 遵义昆仑燃气'},
@@ -233,3 +233,6 @@ REGIONS = [
     {'province': '黑龙江省', 'name': '绥化中石油昆仑燃气有限公司', 'mdm_code': '9AT4', 'ou_id': 146900, 'value': '9AT4|146900', 'label': '黑龙江省 · 绥化昆仑燃气'},
     {'province': '黑龙江省', 'name': '肇东中石油昆仑燃气有限公司', 'mdm_code': '9AT3', 'ou_id': 110200, 'value': '9AT3|110200', 'label': '黑龙江省 · 肇东昆仑燃气'},
 ]
+
+# 按名称排序，避免任何地区被当成默认项排在首位
+REGIONS.sort(key=lambda r: r["label"])

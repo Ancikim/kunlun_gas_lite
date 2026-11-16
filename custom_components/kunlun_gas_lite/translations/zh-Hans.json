@@ -4,7 +4,7 @@
     "step": {
       "user": {
         "title": "选择地区",
-        "description": "从 {count} 家燃气公司中选择你所在的地区。下一步会自动填好地区码和地区编号，你只需确认。",
+        "description": "从 {count} 家燃气公司中选择你所在的地区（无默认选项，可输入关键字筛选）。下一步会自动填好地区码和地区编号。",
         "data": {
           "region": "所在地区（省份 · 燃气公司）"
         }
@@ -24,7 +24,9 @@
       }
     },
     "error": {
-      "cannot_connect": "无法连接燃气服务或户号/地区码不正确，请检查后重试"
+      "cannot_connect": "无法连接燃气服务或户号/地区码不正确，请检查后重试",
+      "invalid_region": "地区选择无效，请重新选择",
+      "invalid_user_code": "户号不能为空"
     },
     "abort": {
       "already_configured": "该户号已添加"
